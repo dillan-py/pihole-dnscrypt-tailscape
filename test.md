@@ -26,12 +26,17 @@ Edit:
 ```bash
 sudo nano /etc/dhcpcd.conf
 ```
-Edit or add: (replace X with the IP of your Pi use 'ip a' to see the ip on eth0 or wlan0 whichever you use, if you use wlan0, ensure you are using that interface)
+Edit or add: 
+(Replace X with the IP of your Pi use 'ip a' to see the ip on eth0 or wlan0 whichever you use, if you use wlan0, ensure you are using that interface)
 ```ini
 interface eth0
 static ip_address=192.168.0.X/24
 static routers=192.168.0.1
 static domain_name_servers=127.0.0.1
+#Remove below if you are not using ipv6
+ipv6only
+ia_na 1
+ia_pd 1
 ```
 Reboot:
 ```bash
@@ -42,6 +47,7 @@ Confirm:
 ```bash
 ip a
 ip route
+ip -6 addr show eth0
 ```
 
 ## Step 3: Install Pi-Hole and set
@@ -57,7 +63,17 @@ curl -sSL https://install.pi-hole.net | bash
 After install, test it works:
 ```bash
 pihole status
+pihole setpassword <enter a password here>
 ```
+If using Pi-hole for DHCP6 + RA (ignore if using normal IPV4)
+In Pi-hole UI:
+Settings -> DHCP
+Enable:
+- DHCP Server
+- Enable Ipv6 Support (SLAAC + RA)]
+- Enable RA Server - managed + assisted
+- "Pihole as the only DHCP server"
+Save
 
 ## Step 4: Install and Configure DNSCrypt
 Following this working guide: https://docs.pi-hole.net/guides/dns/dnscrypt-proxy/
@@ -122,8 +138,12 @@ listen_addresses = []
 # Populate `server_names` with desired DoH/DNSCrypt upstream DNS servers listed in https://dnscrypt.info/public-servers/.
 # Example for Cloudflare malware-blocking DNS and bhrama-world DNS for redundancy
 server_names = ['cloudflare-security', 'bhrama-world']
+ipv6_servers = true # delete/false if you are not using ipv6
+dnssec = true
+require_dnssec = true
 ```
 #Configuring Pi-hole Upstream DNS Servers
+Uncheck all Upstream DNS Servers
 Run the following command to set the upstream DNS server of Pi-hole to your local dnscrypt-proxy instance:
 ```bash
 sudo pihole-FTL --config dns.upstreams '["127.0.0.1#5053"]'
@@ -160,22 +180,126 @@ Optionally, confirm in the Pi-hole admin web interface that upstream DNS servers
 - **Web interface:** Yes
 - **Blocklists:** Default is fine
 
-##To get the Pi to use itself for DNS:
-Very important... you might find youyrself having to comment the current configuration in this file so you can use it later if anything hiccups.
-```bash
-sudo nano /etc/resolv.conf
+# Link Pi-hole to dnscrypt-proxy
 
+```bash
+sudo nano /etc/pihole/setupVars.conf
+```
+Set:
+```bash
+PIHOLE_DNS_1=127.0.0.1#5053
+PIHOLE_DNS_1=::1#5053
+```
+Restart:
+```bash
+pihole restartdns
+```
+Verify on a client by setting the DNS manually to the Pi-hole IP address (Windows):
+```bash
+ipconfig /all
+resolvectl status
+```
 To update dnscrypt-proxy using this install via APT, is simply by updating your system as you usually would:
 ```bash
 sudo apt update
 sudo apt upgrade
 ```
 
+Enable and start these services
+```bash
 
-## Install PiVPN (WireGuard/OpenVPN)
+sudo systemctl enable dnscrypt-proxy
+sudo systemctl enable dnscrypt-proxy.socket
+sudo systemctl enable dnscrypt-proxy.service
+sudo systemctl enable pi-hole-FTL
+
+sudo systemctl start dnscrypt-proxy
+sudo systemctl start dnscrypt-proxy.socket
+sudo systemctl start dnscrypt-proxy.service
+sudo systemctl start pi-hole-FTL
+```
+Test with:
+```bash
+dig @127.0.0.1 google.com +dnssec
+```
+## Step X: DDNS from FreeDNS
+```bash
+sudo nano /etc/hosts
+```
+Enter your subdomain name next to the localhost
+127.0.0.1 mypihome.ddns.net
+
+# Create updater
+
+```bash
+sudo nano /usr/local/bin/freedns_update.sh
+```
+```bash
+#!/bin/bash
+curl -fsS "https://freedns.afraid.org/dynamic/update.php?YOUR_TOKEN" >/dev/null 2>&1
+```
+```bash
+sudo chmod +x /usr/local/bin/freedns_update.sh
+```
+Cron automation for every 5 minutes to so hostname always maps to it's public IP:
+```bash
+*/5 * * * * /usr/local/bin/freedns_update.sh
+```
+
+
+
+
+## Install PiVPN (WireGuard)
 ```bash
 curl -L https://install.pivpn.io | bash
 # Follow the interactive installer to choose WireGuard or OpenVPN
+```
+Choose:
+
+- WireGuard
+- Interface: eth0
+- Port: 51820 UDP
+- DNS: Pi-hole
+- Public endpoint: FreeDNS hostname
+- Unattended upgrades: Yes
+
+Create client:
+```bash
+pivpn add
+```
+Verify:
+```bash
+sudo wg show
+```
+## Firewall (UFW)
+```bash
+sudo apt install ufw -y
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow 53
+sudo ufw allow 51820/udp
+sudo ufw allow 80/tcp
+sudo ufw enable
+```
+
+```bash
+sudo systemctl enable ufw
+sudo systemctl start ufw
+sudo systemctl status ufw
+```
+
+# Final Boot Validation
+```bash
+sudo reboot
+```
+Post-boot checks:
+```bash
+pihole status
+systemctl status dnscrypt-proxy
+sudo wg show
+ufw status
+dig @127.0.0.1 google.com +dnssec # should retuirn NOERROR and 'ad' flag
 ```
 
 
