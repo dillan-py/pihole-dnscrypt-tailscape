@@ -47,22 +47,19 @@ ip route
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
+**Important choices during install:**
+
+- **Upstream DNS:** Any (this is only temporary; later change to custom DNS: `127.0.0.1#5353` as DNSCrypt will use this)
+- **Web interface:** Yes
+- **Blocklists:** Default is fine
 
 After install:
 ```bash
 pihole status
 ```
 
-```bash
-curl -sSL https://install.pi-hole.net | bash
-```
 
 
-**Important choices during install:**
-
-- **Upstream DNS:** Any (this is only temporary; later change to custom DNS: `127.0.0.1#5353` as DNSCrypt will use this)
-- **Web interface:** Yes
-- **Blocklists:** Default is fine
 
 
 
