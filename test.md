@@ -35,6 +35,7 @@ static domain_name_servers=127.0.0.1
 ```
 Reboot:
 ```bash
+sudo systemctl restart dhcpd
 sudo reboot
 ```
 Confirm:
@@ -43,7 +44,7 @@ ip a
 ip route
 ```
 
-## Step 3: Install Pi-Hole
+## Step 3: Install Pi-Hole and set
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
@@ -134,6 +135,7 @@ Run the following commands to restart dnscrypt-proxy and FTLDNS:
 sudo systemctl restart dnscrypt-proxy.socket
 sudo systemctl restart dnscrypt-proxy.service
 sudo systemctl restart pihole-FTL.service
+sudo pihole restartdns
 ```
 
 #Reviewing Service Status
@@ -142,6 +144,7 @@ Run the following commands to review the status of each restarted service:
 sudo systemctl status dnscrypt-proxy.socket
 sudo systemctl status dnscrypt-proxy.service
 sudo systemctl status pihole-FTL.service
+sudo pihole status
 ```
 
 Configuring Pi-hole after DNSCrypt
@@ -156,6 +159,11 @@ Optionally, confirm in the Pi-hole admin web interface that upstream DNS servers
 - **Upstream DNS:** Any (this is only temporary; later change to custom DNS: `127.0.0.1#5353` as DNSCrypt will use this)
 - **Web interface:** Yes
 - **Blocklists:** Default is fine
+
+##To get the Pi to use itself for DNS:
+Very important... you might find youyrself having to comment the current configuration in this file so you can use it later if anything hiccups.
+```bash
+sudo nano /etc/resolv.conf
 
 To update dnscrypt-proxy using this install via APT, is simply by updating your system as you usually would:
 ```bash
