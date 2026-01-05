@@ -9,15 +9,13 @@ DNSCrypt runs locally and forwards encrypted DNS
 
 The Pi will connect to the router via ethernet in this example, however you can use wlan0 too.
 
-Setup initial configuration
-
-## Update and clean up any unused packages
+## Step 1: Update and clean up any unused packages
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt autoremove && sudo apt autopurge -y
 ```
 
-## Step 1: Set a Static IP (required)
+## Step 2: Set a Static IP (required)
 Pi-hole and PiVPN break without this.
 
 Before installing Pi-Hole, ensure that you have set a static ip for your Pi on your router, most routers will let you reserve an IP address if you provide a name, MAC and IP. This will prevent the Pi changing to another IP by DHCP over time.
@@ -45,7 +43,7 @@ ip a
 ip route
 ```
 
-## Step 2: Install Pi-Hole
+## Step 3: Install Pi-Hole
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
@@ -59,13 +57,13 @@ pihole status
 curl -sSL https://install.pi-hole.net | bash
 ```
 
-Important choices during install:
 
-Upstream DNS: Any (this is only temporary and will change this later to a custom DNS: #127.0.0.1#5353 as DNSCrypt will use this later)
+**Important choices during install:**
 
-Web interface: Yes
+- **Upstream DNS:** Any (this is only temporary; later change to custom DNS: `127.0.0.1#5353` as DNSCrypt will use this)
+- **Web interface:** Yes
+- **Blocklists:** Default is fine
 
-Blocklists: Default is fine
 
 
 
