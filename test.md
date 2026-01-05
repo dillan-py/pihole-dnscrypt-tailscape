@@ -1,9 +1,9 @@
 
 # Secure Pi Setup using Pi-hole, Pi-VPN with DNSCrypt
-
+```mathematica
 Clients → Pi-hole → DNSCrypt → Internet
 VPN clients → PiVPN → Pi-hole → DNSCrypt → Internet
-
+```
 Pi-hole does not replace DNSCrypt
 DNSCrypt runs locally and forwards encrypted DNS
 
@@ -20,7 +20,7 @@ sudo apt autoremove && sudo apt autopurge -y
 ## Step 1: Set a Static IP (required)
 Pi-hole and PiVPN break without this.
 
-Before installing Pi-Hole, ensure that you have set a static ip for your Pi on your router, most routers will let you reserver an IP address if you provide a name, MAC and IP. This will prevent the Pi changing to another IP by DHCP over time.
+Before installing Pi-Hole, ensure that you have set a static ip for your Pi on your router, most routers will let you reserve an IP address if you provide a name, MAC and IP. This will prevent the Pi changing to another IP by DHCP over time.
 
 And if it lets you change the DNS, set it to the IP of the Pi, if your router doesn't allow you to do this, each device will only need to change their DNS setting to the IP of the Pi on the network
 
