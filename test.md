@@ -53,12 +53,46 @@ curl -sSL https://install.pi-hole.net | bash
 - **Web interface:** Yes
 - **Blocklists:** Default is fine
 
-After install:
+After install, test it works:
 ```bash
 pihole status
 ```
 
+## Step 4: Install and Configure DNSCrypt
+Follwing this working guide: https://docs.pi-hole.net/guides/dns/dnscrypt-proxy/
 
+#Installing dnscrypt-proxy:
+```bash
+sudo apt install dnscrypt-proxy -y
+
+#sudo systemctl enable dnscrypt-proxy
+#sudo systemctl start dnscrypt-proxy
+```
+#Configuring dnscrypt-proxy
+
+**Important: edit the file shown in the guide by creating an override to survice updates and reboots:**
+Create an override (this makes /etc/systemd/system/dnscrypt-proxy.socket.d/override.conf):
+
+#Why this matters
+
+/usr/lib/systemd/system/ (or /lib/systemd/system/) → owned by the package. Updates can replace files.
+/etc/systemd/system/ → yours. Overrides here take precedence and survive updates and reboots.
+
+```bash
+sudo systemctl edit dnscrypt-proxy.socket
+```
+
+
+> **Note:** Clear existing `ListenStream` and `ListenDatagram` entries before adding new ones to avoid multiple socket bindings.
+``
+
+
+
+By default, FTLDNS listens on the standard DNS port 53.
+
+To avoid conflicts with FTLDNS, edit /usr/lib/systemd/system/dnscrypt-proxy.socket, ensuring dnscrypt-proxy listens on a port that is not in use by other services.
+
+The following settings in /usr/lib/systemd/system/dnscrypt-proxy.socket, let dnscrypt-proxy listen on localhost on port 5053:
 
 
 
@@ -71,12 +105,7 @@ curl -L https://install.pivpn.io | bash
 # Follow the interactive installer to choose WireGuard or OpenVPN
 ```
 
-## Configure DNSCrypt
-```bash
-sudo apt install -y dnscrypt-proxy
-sudo systemctl enable dnscrypt-proxy
-sudo systemctl start dnscrypt-proxy
-```
+
 
 ## Verify Services
 ```bash
