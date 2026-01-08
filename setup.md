@@ -56,6 +56,20 @@ ip -6 addr show eth0
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
+# Alternative Install Methods
+Piping to bash is controversial, as it prevents you from reading code that is about to run on your system. Therefore, we provide these alternative installation methods which allow code review before installation:
+
+#Method 1: Clone our repository and run
+```bash
+git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
+cd "Pi-hole/automated install/"
+sudo bash basic-install.sh
+```
+#Method 2: Manually download the installer and run - prefer this if curl fails
+```bash
+wget -O basic-install.sh https://install.pi-hole.net
+sudo bash basic-install.sh
+```
 **Important choices during install:**
 
 - **Upstream DNS:** Any (this is only temporary; later change to custom DNS: `127.0.0.1#5053` as DNSCrypt will use this)
