@@ -56,7 +56,8 @@ ip -6 addr show eth0
 ```bash
 curl -sSL https://install.pi-hole.net | bash
 ```
-Alternative Install Methods
+**Alternative Install Methods**
+
 Piping to bash is controversial, as it prevents you from reading code that is about to run on your system. Therefore, we provide these alternative installation methods which allow code review before installation:
 
 #Method 1: Clone our repository and run
