@@ -60,13 +60,13 @@ curl -sSL https://install.pi-hole.net | bash
 
 Piping to bash is controversial, as it prevents you from reading code that is about to run on your system. Therefore, we provide these alternative installation methods which allow code review before installation:
 
-#Method 1: Clone our repository and run
+Method 1: Clone our repository and run
 ```bash
 git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
 cd "Pi-hole/automated install/"
 sudo bash basic-install.sh
 ```
-#Method 2: Manually download the installer and run - prefer this if curl fails
+Method 2: Manually download the installer and run - prefer this if curl fails
 ```bash
 wget -O basic-install.sh https://install.pi-hole.net
 sudo bash basic-install.sh
@@ -161,7 +161,7 @@ Edit /etc/dnscrypt-proxy/dnscrypt-proxy.toml, updating the following settings:
 ```bash
 sudo nano /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 ```
-Use the follwing settings:
+Use the following settings:
 ```bash
 # Use systemd socket activation:
 listen_addresses = []
@@ -173,7 +173,7 @@ ipv6_servers = true        # set false if not using IPv6
 dnssec = true
 require_dnssec = true
 ```
-#Configuring Pi-hole Upstream DNS Servers
+# Configuring Pi-hole Upstream DNS Servers
 Uncheck all Upstream DNS Servers
 Run the following command to set the upstream DNS server of Pi-hole to your local dnscrypt-proxy instance:
 ```bash
