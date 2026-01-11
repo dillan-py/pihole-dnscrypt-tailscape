@@ -243,14 +243,15 @@ systemctl start dnscrypt-proxy
 systemctl enable dnscrypt-proxy
 > **The socket handles it.**
 
-## Install VPN (WireGuard)
+## Install VPN (WireGuard - Tailscape)
 ```bash
 
-pivpn add
+Put the command in here
 ```
 Verify:
 ```bash
 hiiiii
+More commands and then put som einstructoins here what you did etc...
 ```
 ## Firewall (UFW)
 ```bash
@@ -289,7 +290,6 @@ sudo reboot
 Post-boot checks:
 ```bash
 pihole status
-sudo wg show
 ufw status
 dig @127.0.0.1 google.com +dnssec
 # should return NOERROR and 'ad' flag
