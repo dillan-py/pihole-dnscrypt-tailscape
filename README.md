@@ -2,7 +2,8 @@
 Collection of working configurations and guides
 
 <img width="1401" height="150" alt="image" src="https://github.com/user-attachments/assets/cf076436-84f6-4866-a835-15c2f5f90065" />
-Htop result: 300-400 MB of RAM and low CPU usge makes this setup super lightweight and powerful.
+**Htop result:** 300-400 MB of RAM and low CPU usge makes this setup super lightweight and powerful.
+
 #  Pi‑hole + DNSSEC + Tailscale (VPN)  
 ### A Secure, Private, Zero‑Trust DNS Infrastructure
 
