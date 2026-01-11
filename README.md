@@ -1,6 +1,9 @@
 # pihole-dnscrypt-pivpn
 Collection of working configurations and guides
 
+<img width="1553" height="893" alt="pic5" src="https://github.com/user-attachments/assets/57493399-3db8-4fea-a6e0-ef071d2e6b92" />
+
+
 <img width="1401" height="150" alt="image" src="https://github.com/user-attachments/assets/cf076436-84f6-4866-a835-15c2f5f90065" />
 **Htop result:** 300-400 MB of RAM and low CPU usge makes this setup super lightweight and powerful.
 
@@ -129,3 +132,31 @@ Balanced for privacy and stability.
 ---
 
 ## 🏗️ Architecture Overview
+
+
+
+
+# My reccomendations
+Use the Pi 5 with a minimum of 2GB (The more the better, although since I have ran mine it hasn't even gone past 1GB RAM, you can still use it for other purposes later on.
+Use a secure case with a fan ensuring good cooling, and kept away from any areas of high static/humidity/leaking/water exposure/ extreme temperatures etc.
+Ensure to use the Pi power supply, which powers the Pi at it's reccomended 5V and 5A.
+Use Raspberry Pi OS lite (64-Bit) - using the Raspberry Pi Imager app - Extremely lightweight OS, less to go wrong therefore less vulnerabilities will develop on the OS overtime compared to most OS' and has a quick reboot.
+Enter a username and password for initial configuration, for the wifi, as we will be using eth0, remove any inputs for it and continue, only if you cannot connect your pi to your router via a rj45 cable use Wifi - performance will be impacted
+Once you have powered on your Pi and connected a keyboard and monitor to it, login and configure ssh using a public key:
+
+Ensure ssh is enabled and running, 
+Type whoami and hostnamectl -I
+Use that to ssh into it:
+whoami@ip_address
+Simply put, generate the keys oon your client (windows pc/mac/linux), then transfer it to the pi 
+Now once you can ssh without a password, set the /etc/ssh/sshd_config to no root login, passwordless etc etc
+A guide for this...
+Can use termius on your phone if you want easy access.
+
+This way you can access the cli remotely without having to constantly connect a keyboard and monitor to work on it as you will have to paste some commands in ans is not a GUI.
+
+
+Connect the Pi to your router (router-enabled-switch)
+Route all traffic via eth0
+You can attempt to use pivpn although if you are behind a CGNAT this will not work as intended which tailscape effectivaly bypassses and makes our life easier.
+
