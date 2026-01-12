@@ -1,0 +1,67 @@
+If your goal is maximum privacy from your ISP and strong authentication with DNSSEC, and you can only choose one upstream protocol, the answer is surprisingly clear:
+⭐ DNSCrypt is the best single choice.
+Let me break down why in a way that fits exactly how you think — threat‑model first, protocol second.
+
+🔐 1. Privacy from ISP: DNSCrypt vs DoH
+Both hide your DNS queries from your ISP, but they do it differently.
+DoH
+• 	Encrypts DNS inside HTTPS
+• 	ISP sees: “You’re talking to Cloudflare over HTTPS”
+• 	ISP cannot see DNS queries
+• 	BUT: corporate firewalls and ISPs can intercept DoH using TLS inspection
+DNSCrypt
+• 	Encrypts DNS using a dedicated cryptographic protocol
+• 	ISP sees: “You’re sending encrypted packets to a random IP”
+• 	ISP cannot see DNS queries
+• 	ISP cannot MITM DNSCrypt
+• 	TLS‑inspection appliances cannot break it
+Winner for ISP privacy:
+👉 DNSCrypt
+Because it cannot be intercepted or inspected by middleboxes.
+
+🔐 2. Authentication: DNSSEC + resolver identity
+You want two layers of trust:
+Layer 1 — DNSSEC
+Both DoH and DNSCrypt support DNSSEC validation.
+So this part is equal.
+Layer 2 — Resolver authentication
+This is where the difference becomes huge.
+DoH
+• 	Authenticates only the HTTPS hostname
+• 	Any server with a valid certificate for that hostname can impersonate the resolver
+• 	No resolver‑level cryptographic identity
+DNSCrypt
+• 	Authenticates the resolver itself
+• 	Uses a signed resolver certificate
+• 	Uses a unique public key
+• 	Prevents resolver impersonation
+• 	Prevents MITM even if someone injects a fake TLS certificate
+Winner for authentication:
+👉 DNSCrypt
+Because it provides cryptographic resolver identity, not just HTTPS hostname validation.
+
+🔐 3. Attack surface
+DoH
+• 	HTTP/2
+• 	TLS
+• 	ALPN
+• 	Reverse proxies
+• 	Load balancers
+• 	Web server stacks
+More moving parts → more potential vulnerabilities.
+DNSCrypt
+• 	Lightweight
+• 	Minimal parsing
+• 	Purpose‑built
+• 	Smaller attack surface
+Winner for minimal attack surface:
+👉 DNSCrypt
+
+🧩 Final verdict
+If you can only choose one protocol and your goals are:
+✔ Hide DNS from ISP
+✔ Strong authentication
+✔ DNSSEC validation
+✔ Minimal attack surface
+✔ No TLS interception
+✔ No resolver impersonation
