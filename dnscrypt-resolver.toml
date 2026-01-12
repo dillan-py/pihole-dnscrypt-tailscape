@@ -1,5 +1,9 @@
 https://github.com/DNSCrypt/dnscrypt-proxy/blob/master/dnscrypt-proxy/example-dnscrypt-proxy.toml
 
+##server_names = ['dnscrypt.uk-ipv4', 'dnscrypt.uk-ipv4', 'cs-manchester', 'dnscry.pt-coventry-ipv4', 'dnscry.pt-coventry>
+#cloudflare-security', 'brahma-world']
+#'dnscry.pt-adelaide-ipv4', 'dnscry.pt-adelaide-ipv6'
+##
 #cat dnscrypt-proxy.toml
 # Empty listen_addresses to use systemd socket activation
 
