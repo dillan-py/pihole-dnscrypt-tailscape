@@ -232,6 +232,7 @@ On your phone/laptop:
 - 	Install Tailscale app
 - 	Sign in
 - 	Done
+
 You now have a working VPN.
 
 ## Firewall 
@@ -244,8 +245,13 @@ sudo reboot
 ```
 Post-boot checks:
 ```bash
+#Pi-hole
 pihole status
+#Dnscrypt-proxy
 systemctl status dnscrypt-proxy
+#Tailscape:
+systemctl status tailscaled
+#########
 sudo wg show
 ufw status
 dig @127.0.0.1 google.com +dnssec
