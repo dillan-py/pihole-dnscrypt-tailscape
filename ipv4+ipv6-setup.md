@@ -16,29 +16,13 @@ sudo apt autoremove && sudo apt autopurge -y
 ```
 
 ## Step 2: Set a Static IP (required)
-Pi-hole and PiVPN break without this.
+Pi-hole will break without this.
 
 Before installing Pi-Hole, ensure that you have set a static ip for your Pi on your router, most routers will let you reserve an IP address if you provide a name, MAC and IP. This will prevent the Pi changing to another IP by DHCP over time.
 
 And if it lets you change the DNS, set it to the IP of the Pi, if your router doesn't allow you to do this, each device will only need to change their DNS setting to the IP of the Pi on the network
+> Later we will use 'nmcli' to set the static IP including the DNS, till then we need the router to be used so the Pi can resolve domains for installs and testing.
 
-Edit:
-```bash
-sudo nano /etc/dhcpcd.conf
-```
-Edit or add: 
-(Replace X with the IP of your Pi use 'ip a' to see the ip on eth0 or wlan0 whichever you use, if you use wlan0, ensure you are using that interface)
-```ini
-interface eth0
-static ip_address=192.168.0.X/24
-static routers=192.168.0.1
-static domain_name_servers=127.0.0.1
-```
-Reboot:
-```bash
-sudo systemctl restart dhcpcd
-sudo reboot
-```
 Confirm:
 ```bash
 ip a
@@ -188,6 +172,36 @@ Restart:
 ```bash
 pihole restartdns
 ```
+
+nmcli
+
+ nmcli device show | grep DNS
+ 292  nmcli -t -f NAME,DEVICE,TYPE,STATE connection show --active
+ 293  sudo nmcli connection modify netplan-eth0 ipv4.dns 127.0.0.1
+ 294  sudo nmcli connection modify netplan-eth0 ipv4.ignore-auto-dns yes
+ 295  sudo nmcli connection modify netplan-eth0 ipv6.dns ::1
+ 296  sudo nmcli connection modify netplan-eth0 ipv6.ignore-auto-dns yes
+ 297  sudo nmcli device reapply eth0
+ 298  nmcli device show | grep DNS
+ 299  cat /etc/resolv.conf
+ 300  dig dnssec-failed.org
+ 301  dig -6 dnssec-failed.org
+ 302  sudo ss -lunpt | grep :53
+
+check:
+
+ 304  sudo journalctl -u dnscrypt-proxy.service -n 50 --no-pager
+ sudo pihole -t
+ sudo tcpdump -i any port 53
+
+dig dnssec-failed.org
+
+ LORD HAVE MERCY IT WORKS:
+ sudo systemctl status dnscrypt-proxy
+ 327  sudo systemctl status dnscrypt-proxy.socket
+ 328  sudo systemctl status dnscrypt-proxy.service
+ 
+
 Verify on a client by setting the DNS manually to the Pi-hole IP address (Windows):
 ```bash
 ipconfig /all
@@ -203,13 +217,7 @@ Enable and start these services
 ```bash
 
 sudo systemctl enable dnscrypt-proxy
-sudo systemctl enable dnscrypt-proxy.socket
-sudo systemctl enable dnscrypt-proxy.service
 sudo systemctl enable pi-hole-FTL
-
-sudo systemctl disable dnscrypt-proxy.service
-sudo systemctl enable dnscrypt-proxy.socket
-
 sudo systemctl start pi-hole-FTL
 ```
 Advice - You do not need:
@@ -256,6 +264,7 @@ sudo wg show
 ufw status
 dig @127.0.0.1 google.com +dnssec
 # should return NOERROR and 'ad' flag
+'ad' = Authenticated Data
 journalctl -u dnscrypt-proxy | tail
 ```
 
