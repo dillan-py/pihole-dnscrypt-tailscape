@@ -1,15 +1,26 @@
 (DNSCrypt‑only)
 
 
-```bash
-server_names = [
-  "quad9-dnscrypt-ip6-filter-pri",
-  "quad9-dnscrypt-ip4-filter-pri",
-  "scaleway-fr",
-  "ams-dnscrypt-nl",
-  "ams-dnscrypt-nl-ipv6"
-]
-```
+#####
+server_names = ['dnscry.pt-london', 'dnscry.pt-redditch-ipv4', 'cs-london', 'dnscry.pt-paris-ipv4', 'dnscry.pt-paris-ip>
+#####
+lb_strategy = "p2"
+
+
+############################################
+# SECURITY ENFORCEMENT
+############################################
+
+dnscrypt_ephemeral_keys = true
+
+require_dnssec = true
+require_nolog = true
+require_nofilter = true
+
+dnscrypt_servers = true
+doh_servers = false   # disable DoH to force pure DNSCrypt
+odoh_servers = false
+#####
 
 This gives you:
 -	DNSCrypt only
@@ -19,3 +30,23 @@ This gives you:
 - 	EU‑based privacy
 - 	Fastest possible latency from the UK
 - 	Zero intel‑agency‑friendly operators
+
+
+/etc/dnscrypt-proxy $ sudo dnscrypt-proxy -check
+[2026-01-17 19:24:00] [NOTICE] dnscrypt-proxy 2.1.8
+[2026-01-17 19:24:00] [NOTICE] Service is not usable yet
+[2026-01-17 19:24:00] [NOTICE] Resolving server host [raw.githubusercontent.com] using bootstrap resolvers over udp
+[2026-01-17 19:24:00] [NOTICE] Source [public-resolvers] loaded
+[2026-01-17 19:24:00] [NOTICE] Configuration successfully checked
+
+
+
+what the goat says:
+
+Requirements:
+
+Lowest possible latency (priority #1 for you)
+No filtering (uncensored / nofilter)
+No logging (nolog / privacy-focused)
+DNSSEC ready (validates DNSSEC)
+CIA non-friendly → prefer non-US-based operators (avoid obvious US five-eyes heavy ones like Google/Cloudflare/Quad9 if possible; Quad9 is Swiss-operated but has US ties in practice for many privacy users)
