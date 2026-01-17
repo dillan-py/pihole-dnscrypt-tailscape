@@ -13,7 +13,7 @@ Collection of working configurations and guides
 DNS traffic is often left out the conversation when it comes to securing your network, mostly resorting to using VPNs without actually knowing how traffic regarding DNS is resolved and handled once it leaves your network.
 This guide documents my personal DNS security stack built around **Pi‑hole**, **DNSSEC**, and **Tailscale**. The goal is simple:
 Create a fast, trustworthy, privacy‑focused DNS resolver that works both on a home local network and remotely through a zero‑trust VPN mesh.
-I have spent countless hours testing this concept through trial and error and what I have to show you worked best for me in the mind of keepinng it long term.
+I have spent countless hours testing this concept through trial and error and what I have to show you worked best for me in the mind of keepnng it long term.
 
 
 
@@ -87,6 +87,10 @@ Everything else—the filtering, validation, cryptography, routing—is invisibl
 
 # WARNING!!!
 Be careful what you add to your blocklist, too many can block functionality of applications which means spending more time debugging it. So if you are going to go crazy with the blocklists, ensure to add whitelists so you regain access to legitimate domains.
+Home users may report some sites wont load correctly/slowly when requiring dnssec for all traffic, so my reccomendation is to use a dnscrypt resolver that has no filters.
+You can use DOH resolvers however, best not to mix with dnscrypt resolvers, keep it to one as it can only use one at a time (can't use both) as they are two different types of privacy.
+Use the resolvers from the ones in the resolvers link, if you get an error that it cant find it, you need to replace the signers key as it should read all the ones you use from the list.
+Find some more resolvers for dnsscrypt if your location is different to the UK
 
 Once Pi‑hole, DNSSEC, and Tailscale are aligned, your DNS threat surface shrinks dramatically:
 - 	Local devices resolve through a trusted, validated DNS pipeline
