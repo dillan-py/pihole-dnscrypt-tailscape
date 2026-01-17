@@ -1,0 +1,21 @@
+(DNSCrypt‑only)
+
+
+```bash
+server_names = [
+  "quad9-dnscrypt-ip6-filter-pri",
+  "quad9-dnscrypt-ip4-filter-pri",
+  "scaleway-fr",
+  "ams-dnscrypt-nl",
+  "ams-dnscrypt-nl-ipv6"
+]
+```
+
+This gives you:
+-	DNSCrypt only
+- 	DNSSEC validation
+- 	No logs
+- 	No filtering
+- 	EU‑based privacy
+- 	Fastest possible latency from the UK
+- 	Zero intel‑agency‑friendly operators
