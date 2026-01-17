@@ -229,9 +229,9 @@ curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
 On your phone/laptop:
-• 	install Tailscale app
-• 	sign in
-• 	done
+- 	Install Tailscale app
+- 	Sign in
+- 	Done
 You now have a working VPN.
 
 ## Firewall 
