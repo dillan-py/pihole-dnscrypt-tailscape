@@ -89,13 +89,13 @@ Everything else—the filtering, validation, cryptography, routing—is invisibl
 Be careful what you add to your blocklist, too many can block functionality of applications which means spending more time debugging it. So if you are going to go crazy with the blocklists, ensure to add whitelists so you regain access to legitimate domains.
 
 Once Pi‑hole, DNSSEC, and Tailscale are aligned, your DNS threat surface shrinks dramatically:
-• 	Local devices resolve through a trusted, validated DNS pipeline
-• 	Remote devices use the same resolver through a zero‑trust mesh
-• 	DNS forgery attempts fail silently
-• 	Ads, trackers, and malicious domains get filtered at the network edge
-You don’t need to babysit it. You don’t need to tweak it weekly.
+- 	Local devices resolve through a trusted, validated DNS pipeline
+- 	Remote devices use the same resolver through a zero‑trust mesh
+- 	DNS forgery attempts fail silently
+- 	Ads, trackers, and malicious domains get filtered at the network edge
+You don’t need to babysit or need to tweak it weekly.
 You get a stable, predictable DNS foundation that just keeps working.
-Security is an illusion, we cannot guarantee 100% security in all areas but we can always try our best to get what we can right, that way we are better prepared for what's to come
+Security is an illusion, we cannot guarantee 100% security in all areas but we can always try our best to get what we can right, that way we are better prepared for what's to come.
 ---
 
 ##  Features
