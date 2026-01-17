@@ -2,7 +2,7 @@
 # Secure Pi Setup using Pi-hole, Pi-VPN with DNSCrypt
 ```mathematica
 Clients → Pi-hole → DNSCrypt → Internet
-VPN clients → PiVPN → Pi-hole → DNSCrypt → Internet
+VPN clients → Tailscape → Pi-hole → DNSCrypt → Internet
 ```
 Pi-hole does not replace DNSCrypt
 DNSCrypt runs locally and forwards encrypted DNS
@@ -221,71 +221,22 @@ Test with:
 ```bash
 dig @127.0.0.1 google.com +dnssec
 ```
-## Step X: DDNS from FreeDNS
-Ensure not to use it here to your loopback - common mistake
-/etc/hosts
+## Install Tailscape (VPN)
 
-# Create updater
-
-```bash
-sudo nano /usr/local/bin/freedns_update.sh
+On the Pi:
 ```
-```bash
-#!/bin/bash
-curl -fsS "https://freedns.afraid.org/dynamic/update.php?YOUR_TOKEN" >/dev/null 2>&1
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
 ```
-```bash
-sudo chmod +x /usr/local/bin/freedns_update.sh
-```
-Cron automation for every 5 minutes to so hostname always maps to it's public IP:
-```bash
-*/5 * * * * /usr/local/bin/freedns_update.sh
-```
+On your phone/laptop:
+• 	install Tailscale app
+• 	sign in
+• 	done
+You now have a working VPN.
 
+## Firewall 
 
-
-
-## Install PiVPN (WireGuard)
-```bash
-curl -L https://install.pivpn.io | bash
-# Follow the interactive installer to choose WireGuard or OpenVPN
-```
-Choose:
-
-- WireGuard
-- Interface: eth0
-- Port: 51820 UDP
-- DNS: Pi-hole
-- Public endpoint: FreeDNS hostname
-- Unattended upgrades: Yes
-
-Create client:
-```bash
-pivpn add
-```
-Verify:
-```bash
-sudo wg show
-```
-## Firewall (UFW)
-```bash
-sudo apt install ufw -y
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow ssh
-sudo ufw allow 53
-
-sudo ufw allow 51820/udp
-sudo ufw allow 80/tcp
-sudo ufw enable
-```
-
-```bash
-sudo systemctl enable ufw
-sudo systemctl start ufw
-sudo systemctl status ufw
-sudo ufw status verbose
-```
+Complete this
 
 # Final Boot Validation
 ```bash
