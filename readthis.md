@@ -60,9 +60,9 @@ Good choices for London/UK:
 - European relays (`anon-cs-*` series) — Germany, France, Netherlands (excellent speed & privacy)
 
 Example in `dnscrypt-proxy.toml`:
-```toml
+```bash
 server_names = ['a-and-a', 'cloudflare', 'quad9-dnscrypt-ip4-filter-pri']
-
+```bash
 ```text
 Device (home or remote) ──► Tailscale (encrypted mesh) ──► Pi-hole
                                             │
