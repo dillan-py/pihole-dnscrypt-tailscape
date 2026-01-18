@@ -172,35 +172,36 @@ Restart:
 ```bash
 pihole restartdns
 ```
-
+#Set Pi's DNS to localhost
+```bash
 nmcli
 
- nmcli device show | grep DNS
- 292  nmcli -t -f NAME,DEVICE,TYPE,STATE connection show --active
- 293  sudo nmcli connection modify netplan-eth0 ipv4.dns 127.0.0.1
- 294  sudo nmcli connection modify netplan-eth0 ipv4.ignore-auto-dns yes
- 295  sudo nmcli connection modify netplan-eth0 ipv6.dns ::1
- 296  sudo nmcli connection modify netplan-eth0 ipv6.ignore-auto-dns yes
- 297  sudo nmcli device reapply eth0
- 298  nmcli device show | grep DNS
- 299  cat /etc/resolv.conf
- 300  dig dnssec-failed.org
- 301  dig -6 dnssec-failed.org
- 302  sudo ss -lunpt | grep :53
+nmcli device show | grep DNS
+nmcli -t -f NAME,DEVICE,TYPE,STATE connection show --active
 
-check:
+#sudo nmcli connection modify <replace this with what shows up for yours> ipv4.dns 127.0.0.1
 
- 304  sudo journalctl -u dnscrypt-proxy.service -n 50 --no-pager
- sudo pihole -t
- sudo tcpdump -i any port 53
+sudo nmcli connection modify netplan-eth0 ipv4.dns 127.0.0.1
+sudo nmcli connection modify netplan-eth0 ipv4.ignore-auto-dns yes
+sudo nmcli connection modify netplan-eth0 ipv6.dns ::1
+sudo nmcli connection modify netplan-eth0 ipv6.ignore-auto-dns yes
+sudo nmcli device reapply eth0
+nmcli device show | grep DNS
+cat /etc/resolv.conf # should show name servers configured above by NetworkManager
+dig dnssec-failed.org # tests for SERVFAIL
+dig -6 dnssec-failed.org # same as above but for IPv6
+sudo ss -lunpt | grep :53
 
+checks:
+sudo journalctl -u dnscrypt-proxy.service -n 50 --no-pager
+sudo pihole -t
+sudo tcpdump -i any port 53
 dig dnssec-failed.org
 
- LORD HAVE MERCY IT WORKS:
- sudo systemctl status dnscrypt-proxy
- 327  sudo systemctl status dnscrypt-proxy.socket
- 328  sudo systemctl status dnscrypt-proxy.service
- 
+sudo systemctl status dnscrypt-proxy
+sudo systemctl status dnscrypt-proxy.socket #will show localhost streams
+sudo systemctl status dnscrypt-proxy.service
+```
 
 Verify on a client by setting the DNS manually to the Pi-hole IP address (Windows):
 ```bash
