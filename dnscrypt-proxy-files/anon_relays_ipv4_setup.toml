@@ -1,0 +1,128 @@
+#First do this
+#sudo chown -R _dnscrypt-proxy:_dnscrypt-proxy /var/cache/dnscrypt-proxy
+# Adjust user/group if different.
+
+############################################
+# LISTENING (systemd socket activation)
+############################################
+listen_addresses = []
+
+############################################
+# RESOLVERS (LOW PROFILE / LOW LATENCY / UK + NEAR-EU)
+# IPv4 ONLY — all IPv6 resolvers removed
+############################################
+server_names = [
+  'dnscry.pt-redditch-ipv4',
+  'dnscry.pt-manchester-ipv4',
+  'cs-london',
+  'faelix-uk-ipv4',
+  'ams-dnscrypt-nl',
+  'ffmuc.net',
+  'faelix-ch-ipv4'
+]
+
+lb_strategy = "p2"   # prefer fastest, keep diversity
+
+############################################
+# SECURITY ENFORCEMENT
+############################################
+dnscrypt_ephemeral_keys = true
+require_dnssec = true
+require_nolog = true
+require_nofilter = true
+
+dnscrypt_servers = true
+doh_servers = false
+odoh_servers = false
+
+############################################
+# IPV6 — FULLY DISABLED
+############################################
+block_ipv6 = true
+ipv6_servers = false
+
+############################################
+# BOOTSTRAP / FALLBACK (LOW-PROFILE, NO BIG TECH)
+############################################
+bootstrap_resolvers = [
+  '116.202.176.26:53',    # dnscrypt.de
+  '185.121.177.177:53',   # faelix
+  '51.77.149.139:53'      # dnscry.pt
+]
+
+fallback_resolvers = [
+  '116.202.176.26:53',
+  '185.121.177.177:53'
+]
+
+ignore_system_dns = true
+
+############################################
+# CACHE (FAST + SAFE)
+############################################
+cache = true
+cache_size = 8192
+cache_min_ttl = 600
+cache_max_ttl = 86400
+cache_neg_min_ttl = 120
+cache_neg_max_ttl = 600
+
+############################################
+# LEAK PREVENTION / HARDENING
+############################################
+block_unqualified = true
+block_undelegated = true
+#block_unencrypted_dns = true # causes version mismatch error
+
+############################################
+# PERFORMANCE
+############################################
+timeout = 1500
+keepalive = 60
+cert_refresh_delay = 240
+
+############################################
+# ANONYMIZED DNS (STRICT SEPARATION)
+############################################
+[anonymized_dns]
+routes = [
+  # dnscry.pt resolvers → non-UK relays
+  { server_name='dnscry.pt-*', via=['anon-cs-nyc', 'anon-cs-ch'] },
+
+  # faelix resolvers → EU relays
+  { server_name='faelix-*', via=['anon-cs-fr', 'anon-dnscrypt.nl-ns1'] },
+
+  # cs-* resolvers → different operator + geography
+  { server_name='cs-*', via=['anon-cs-berlin', 'anon-cs-fr'] }
+]
+
+skip_incompatible = true
+
+############################################
+# LOGGING
+############################################
+[query_log]
+  file = '/var/log/dnscrypt-proxy/query.log'
+
+[nx_log]
+  file = '/var/log/dnscrypt-proxy/nx.log'
+
+############################################
+# SOURCES
+############################################
+[sources.public-resolvers]
+  urls = [
+    'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
+    'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md'
+  ]
+  cache_file = '/var/cache/dnscrypt-proxy/public-resolvers.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 73
+
+[sources.relays]
+  urls = [
+    'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/relays.md'
+  ]
+  cache_file = '/var/cache/dnscrypt-proxy/relays.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 7
