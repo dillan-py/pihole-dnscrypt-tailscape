@@ -37,55 +37,42 @@ DNSSEC doesn’t encrypt DNS traffic — it **authenticates** it. That authentic
 
 
 
-#################################
+## How It Works – Simple Step-by-Step
 
-Why This Stack Works So Well
-This setup is designed to be “configure once, trust forever.”
-To really appreciate what’s happening under the hood, let’s walk through a real‑world moment.
-You’re on your computer.
-You open YouTube to play music from your favourite artist, and at the same time you draft an email to a friend on Yahoo Mail.
-Behind the scenes, this is what actually happens:
+This setup gives you **ad-free, tracker-free, and spoofing-resistant DNS** — at home and everywhere else — automatically.
 
-🎯 1. Your Device Makes DNS Requests
-Before loading anything, your computer needs to translate domain names into IP addresses:
-• 	
-• 	
-These aren’t websites yet—they’re just names.
-Your device asks your configured DNS resolver (your Pi‑hole) to look them up.
+1. Your device wants to visit youtube.com  
+   → It asks: “What’s the IP address of youtube.com?”
 
-🧱 2. Pi‑hole Intercepts and Filters
-Pi‑hole becomes the first checkpoint:
-• 	It blocks known ad, tracker, and malicious domains
-• 	It logs and filters requests at the network edge
-• 	It ensures nothing shady slips through before DNSSEC even enters the picture
-If a domain is on a blocklist, the request dies here—never reaching the internet.
+2. **Pi-hole** (your local DNS filter) checks the request first  
+   → Instantly **blocks** ads, trackers, malware, or anything on your blocklists  
+   → If blocked → request dies here (no internet traffic wasted)
 
-🔐 3. DNSSEC Validation Kicks In
-For allowed domains, Pi‑hole forwards the request to your upstream resolver (e.g., Unbound or DNSCrypt).
-This resolver performs DNSSEC validation:
-• 	It checks the cryptographic signatures attached to DNS records
-• 	It verifies the chain of trust from the root → TLD → authoritative server
-• 	It rejects anything forged, altered, or injected en‑route
-If the signature doesn’t match, the response is dropped.
-If it does match, the resolver returns a validated, authentic DNS answer.
-This is what protects you from DNS spoofing, phishing redirections, and MITM tampering.
+3. Clean request → forwarded to **dnscrypt-proxy**  
+   → Encrypts the DNS query (hides it from ISP & local network)  
+   → Performs **DNSSEC validation** (checks cryptographic signatures)
 
-🌐 4. Tailscale Extends This Security Everywhere
-If you’re away from home—coffee shop, hotel, mobile hotspot—your device still routes DNS through your Pi‑hole using Tailscale’s zero‑trust mesh.
-That means:
-• 	Same DNS filtering
-• 	Same DNSSEC validation
-• 	Same privacy guarantees
-• 	No exposure to the local network’s DNS resolver
-Your DNS stays inside your own trusted infrastructure, no matter where you are.
+4. dnscrypt-proxy verifies everything  
+   → Makes sure the answer is **genuine**, not forged or tampered with  
+   → Rejects fake / altered responses (protection against DNS spoofing & MITM)
 
-🚀 5. Your Browser Finally Connects
-Only after all of this:
-• 	YouTube loads using a verified IP
-• 	Yahoo Mail loads using a verified IP
-• 	No ads, no trackers, no forged DNS, no silent redirections
-You just see your music and your email.
-Everything else—the filtering, validation, cryptography, routing—is invisible and automatic.
+5. Valid & signed answer → sent back to your device  
+   → Your browser / app now connects using a **trusted, verified IP**
+
+6. Away from home?  
+   → **Tailscale** securely tunnels your DNS traffic back to your home Pi-hole  
+   → Same filtering + same DNSSEC validation + same privacy — everywhere  
+   → Coffee shop, hotel, mobile data → still protected
+
+### What You Actually Experience
+
+You just open YouTube, Spotify, email…  
+→ No ads  
+→ No trackers  
+→ No DNS spoofing or silent redirections  
+→ Everything loads faster and cleaner — automatically
+
+All the filtering, encryption, signature checking and secure routing happens invisibly in the background.
 
 # WARNING!!!
 Be careful what you add to your blocklist, too many can block functionality of applications which means spending more time debugging it. So if you are going to go crazy with the blocklists, ensure to add whitelists so you regain access to legitimate domains.
