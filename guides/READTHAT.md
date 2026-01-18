@@ -12,20 +12,31 @@
 Most people focus on VPNs for traffic encryption but overlook DNS — the system that translates domain names (like github.com) to IP addresses. Once DNS leaves your control, your ISP, public Wi-Fi, or attackers can spy on it, tamper with it, or redirect you.
 
 This setup creates a **fast, trustworthy, privacy-first DNS resolver** that works seamlessly:
-- at home (local network), and  
-- remotely (via zero-trust VPN).
+- At home (local network)
+- Remotely (via zero-trust VPN)
 
-### Core Components
+## Core Components
 
-- **Pi-hole**  
-  A network-wide DNS sinkhole. It acts as your DNS server and blocks unwanted domains (ads, trackers, malware, telemetry) by returning fake/no answers for them. No software needed on client devices — protection happens at the network level.
+### Pi-hole
+- Network-wide DNS sinkhole  
+- Acts as your DNS server  
+- Blocks ads, trackers, malware, and telemetry by returning fake/no DNS answers  
+- No software required on client devices  
+- Protection happens at the network level  
 
-- **dnscrypt-proxy**  
-  A flexible DNS proxy client that encrypts DNS queries (using DNSCrypt v2, DoH, Anonymized DNS etc.) and — crucially — performs **DNSSEC validation**.  
-  DNSSEC cryptographically verifies that DNS answers come from the legitimate source and haven't been tampered with in transit. This stops DNS spoofing, cache poisoning, and man-in-the-middle redirection attacks.
+### dnscrypt-proxy
+- Flexible DNS proxy that encrypts DNS queries  
+- Supports DNSCrypt v2, DoH, and Anonymized DNS  
+- **Performs full DNSSEC validation locally**  
+- Ensures DNS answers are authentic and untampered  
+- Protects against DNS spoofing, cache poisoning, and MITM attacks  
 
-- **Tailscale**  
-  A modern, zero-config mesh VPN built on WireGuard. It creates a private, encrypted virtual network between your devices (called a "tailnet"). This lets phones, laptops, etc. securely route DNS traffic back to your home Pi-hole — no port forwarding, no public exposure, works behind NAT/CGNAT.
+### Tailscale
+- Zero‑config mesh VPN built on WireGuard  
+- Creates a private, encrypted network between your devices (“tailnet”)  
+- Allows remote devices to securely use your home Pi-hole  
+- No port forwarding or public exposure required  
+- Works behind NAT and CGNAT  
 
 ### How It Works – Step by Step
 
@@ -43,6 +54,13 @@ This setup creates a **fast, trustworthy, privacy-first DNS resolver** that work
    → Same blocking + same DNSSEC checks + same privacy — on any network
 
 **Result**: Ad-free, tracker-free, spoofing-resistant browsing that feels automatic and fast.
+
+#### Why use DNSCrypt resolvers instead of DoH/DoT?
+- DNSCrypt v2 provides **stronger metadata protection** than DoH/DoT (no SNI, no ALPN fingerprinting)  
+- Supports **Anonymized DNS**, hiding your IP from the upstream resolver  
+- Resolver lists are **curated, transparent, and community‑audited**  
+- Many DNSCrypt resolvers explicitly commit to **no logging**, **no filtering**, and **DNSSEC support**  
+- dnscrypt-proxy handles DNSSEC **locally**, so you don’t rely on upstream validation  
 
 ### Quick DNSSEC Check (Before You Start)
 
