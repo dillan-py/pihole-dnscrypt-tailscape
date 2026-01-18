@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # List of your DNSCrypt servers
+#Replace this with the chosen ones in your /etc/dnscrypt-proxy/dnscrypt-proxy.toml file:
 RESOLVERS=(
 'dnscry.pt-london', 'dnscry.pt-redditch-ipv4', 'cs-london', 'dnscry.pt-paris-ipv4', 'dnscry.pt-paris-ipv6', 'cs-manchester']
 )
