@@ -42,35 +42,35 @@ DNSSEC doesn’t encrypt DNS traffic — it **authenticates** it. That authentic
 This setup gives you **ad-free, tracker-free, and spoofing-resistant DNS** — at home and everywhere else — automatically.
 
 1. Your device wants to visit youtube.com  
-   → It asks: “What’s the IP address of youtube.com?”
+   - It asks: “What’s the IP address of youtube.com?”
 
 2. **Pi-hole** (your local DNS filter) checks the request first  
-   → Instantly **blocks** ads, trackers, malware, or anything on your blocklists  
-   → If blocked → request dies here (no internet traffic wasted)
+   - Instantly **blocks** ads, trackers, malware, or anything on your blocklists  
+   - If blocked → request dies here (no internet traffic wasted)
 
 3. Clean request → forwarded to **dnscrypt-proxy**  
-   → Encrypts the DNS query (hides it from ISP & local network)  
-   → Performs **DNSSEC validation** (checks cryptographic signatures)
+   - Encrypts the DNS query (hides it from ISP & local network)  
+   - Performs **DNSSEC validation** (checks cryptographic signatures)
 
 4. dnscrypt-proxy verifies everything  
-   → Makes sure the answer is **genuine**, not forged or tampered with  
-   → Rejects fake / altered responses (protection against DNS spoofing & MITM)
+   - Makes sure the answer is **genuine**, not forged or tampered with  
+   - Rejects fake / altered responses (protection against DNS spoofing & MITM)
 
 5. Valid & signed answer → sent back to your device  
-   → Your browser / app now connects using a **trusted, verified IP**
+   - Your browser / app now connects using a **trusted, verified IP**
 
 6. Away from home?  
-   → **Tailscale** securely tunnels your DNS traffic back to your home Pi-hole  
-   → Same filtering + same DNSSEC validation + same privacy — everywhere  
-   → Coffee shop, hotel, mobile data → still protected
+   - **Tailscale** securely tunnels your DNS traffic back to your home Pi-hole  
+   - Same filtering + same DNSSEC validation + same privacy — everywhere  
+   - Coffee shop, hotel, mobile data → still protected
 
 ### What You Actually Experience
 
 You just open YouTube, Spotify, email…  
-→ No ads  
-→ No trackers  
-→ No DNS spoofing or silent redirections  
-→ Everything loads faster and cleaner — automatically
+- No ads  
+- No trackers  
+- No DNS spoofing or silent redirections  
+- Everything loads faster and cleaner — automatically
 
 All the filtering, encryption, signature checking and secure routing happens invisibly in the background.
 
