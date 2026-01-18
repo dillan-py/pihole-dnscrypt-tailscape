@@ -244,8 +244,21 @@ On your phone/laptop:
 You now have a working VPN.
 
 ## Firewall 
+```bash
+# 1. Allow loopback traffic (critical)
+iptables -A OUTPUT -o lo -j ACCEPT
 
-Complete this
+# 2. Allow Pi-hole → dnscrypt-proxy (localhost:5053)
+iptables -A OUTPUT -p udp --dport 5053 -m owner --uid-owner pihole -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 5053 -m owner --uid-owner pihole -j ACCEPT
+
+# 3. Allow dnscrypt-proxy to do DNS bootstrap/fallback
+iptables -A OUTPUT -p udp --dport 53 -m owner --uid-owner dnscrypt-proxy -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 53 -m owner --uid-owner dnscrypt-proxy -j ACCEPT
+
+# 4. Allow established connections
+iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+```
 
 # Final Boot Validation
 ```bash
