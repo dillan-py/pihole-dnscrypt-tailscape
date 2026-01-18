@@ -34,3 +34,6 @@ If you want to change this file always do this straight after!
 sudo systemctl restart dnscrypt-proxy
 sudo systemctl status dnscrypt-proxy
 ```
+
+To check for latency of your chosen resolvers:
+- latency-check.sh
