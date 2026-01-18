@@ -3,11 +3,10 @@
 
 <img width="1553" height="893" alt="pic5" src="https://github.com/user-attachments/assets/57493399-3db8-4fea-a6e0-ef071d2e6b92" />
 
+**Pi-hole Interface:** Under 1M domains is enough for blocking ads and malicous content.
 
 <img width="1401" height="150" alt="image" src="https://github.com/user-attachments/assets/cf076436-84f6-4866-a835-15c2f5f90065" />
-*Htop result:* 300-400 MB of RAM and low CPU usage makes this setup super lightweight and powerful.
-
-
+**Htop result:** 300-400 MB of RAM and low CPU usage makes this setup super lightweight and powerful.
 
 DNS traffic is often left out the conversation when it comes to securing your network, mostly resorting to using VPNs without actually knowing how traffic regarding DNS is resolved and handled once it leaves your network.
 
