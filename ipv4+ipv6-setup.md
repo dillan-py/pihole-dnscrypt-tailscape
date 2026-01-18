@@ -293,3 +293,22 @@ systemctl status dnscrypt-proxy
 ## Next Steps
 - Open/forward the chosen VPN port on your router (default WireGuard: 51820/UDP).
 - Add your client profiles and test connectivity.
+
+As you have finished reading this guide and you now have an idea of protecting your DNS traffic, I will reward you with the next step to further enhance the priacy of this setup by using anonymised relays, the current setup encrypts the DNS records from your ISP but they can still see your IP, so to prevent that we use anon relays and the setup for ipv4+6 is in the anon_relays_setup.toml
+All you need to do to use my working file is save your current .toml file:
+sudo su #(be root)
+cat /etc/dnscrypt-proxy/dnscrypt-proxy.toml > /etc/dnscrypt-proxy/dnscrypt-proxy.bak
+#then rewite the whole file into the .toml file:
+cat > /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+#(Copy the whole file then paste it here then do Ctrl D two times)
+#lastly
+sudo systemctl restart dnscrypt-proxy
+sudo systemctl status dnscrypt-proxy
+If it has an issue reading the cache file enter the command in the file i provided, if you still get errors, your favourite LLM can help as it may be a different error to what I had
+
+Despite it adds latency, now you have a very very secure setup for your DNS traffic.
+If you want better latency, just drop back to the normal file without the relays and customise the resolvers which is best suited for your area and latency.
+
+Hope this gives you a solid basis, now I understand you may come across errors especially with updates changing how each service works, any good LM will help you resolve these issues and remember to keep the setup simple as you can.
+
+Open to any criticism and advise, I would love to hear how this could be improved or seen from a better perspective if I have missed something.
