@@ -228,8 +228,9 @@ systemctl enable dnscrypt-proxy
 
 Test with:
 ```bash
-dig @127.0.0.1 google.com +dnssec
+dig @127.0.0.1 -o 5053 example.com +dnssec
 ```
+Should get the 'ad' flag to show DNSSEC works.
 ## Install Tailscape (VPN)
 
 On the Pi:
