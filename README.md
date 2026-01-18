@@ -43,8 +43,8 @@ DNSSEC doesn’t encrypt DNS traffic — it **authenticates** it. That authentic
 
 This setup gives you **ad-free, tracker-free, and spoofing-resistant DNS** — at home and everywhere else — automatically.
 
-1. Your device wants to visit youtube.com  
-   - It asks: “What’s the IP address of youtube.com?”
+1. Your device wants to visit github.com  
+   - It asks: “What’s the IP address of github.com?”
 
 2. **Pi-hole** (your local DNS filter) checks the request first  
    - Instantly **blocks** ads, trackers, malware, or anything on your blocklists  
@@ -68,7 +68,7 @@ This setup gives you **ad-free, tracker-free, and spoofing-resistant DNS** — a
 
 ### What You Actually Experience
 
-You just open YouTube, Spotify, email…  
+You just open Github, Spotify, Google…  
 - No ads  
 - No trackers  
 - No DNS spoofing or silent redirections  
@@ -77,11 +77,12 @@ You just open YouTube, Spotify, email…
 All the filtering, encryption, signature checking and secure routing happens invisibly in the background.
 
 # WARNING!!!
-Be careful what you add to your blocklist, too many can block functionality of applications which means spending more time debugging it. So if you are going to go crazy with the blocklists, ensure to add whitelists so you regain access to legitimate domains.
-Home users may report some sites wont load correctly/slowly when requiring dnssec for all traffic, so my reccomendation is to use a dnscrypt resolver that has no filters.
-You can use DOH resolvers however, best not to mix with dnscrypt resolvers, keep it to one as it can only use one at a time (can't use both) as they are two different types of privacy.
-Use the resolvers from the ones in the resolvers link, if you get an error that it cant find it, you need to replace the signers key as it should read all the ones you use from the list.
-Find some more resolvers for dnsscrypt if your location is different to the UK
+- Be careful what you add to your blocklist, too many can block functionality of applications which means spending more time debugging it. So if you are going to go crazy with the blocklists, ensure to add whitelists so you regain access to legitimate domains.
+- **Not all ads will be blocked** such as YouTube ads can be blocked as they use ads through https not dns.
+- Home users may report some sites wont load correctly/slowly when requiring dnssec for all traffic, so my reccomendation is to use a dnscrypt resolver that has no filters.
+- You can use DOH resolvers however, best not to mix with dnscrypt resolvers, keep it to one as it can only use one at a time (can't use both) as they are two different types of privacy.
+- Use the resolvers from the ones in the resolvers link, if you get an error that it cant find it, you need to replace the signers key as it should read all the ones you use from the list.
+- Find some more resolvers for dnsscrypt if your location is different to the UK
 
 Once Pi‑hole, DNSSEC, and Tailscale are aligned, your DNS threat surface shrinks dramatically:
 - 	Local devices resolve through a trusted, validated DNS pipeline
