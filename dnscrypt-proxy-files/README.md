@@ -1,4 +1,4 @@
-# These are all varients for the configuration file: 
+# These are all variants for the configuration file: 
 # /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 
 The .toml files here are copy and paste ready files for you to use
