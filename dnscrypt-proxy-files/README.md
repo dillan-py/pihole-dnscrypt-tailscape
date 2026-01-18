@@ -37,3 +37,4 @@ sudo systemctl status dnscrypt-proxy
 
 To check for latency of your chosen resolvers:
 - latency-check.sh
+- testdns.sh
