@@ -1,4 +1,4 @@
-##Anon Relay setup: Fast as reasonably possible and provides redundancy, a solid configutation guide##
+##Anon Relay setup: Setup is made to be fast as reasonably possible for a relay setup and provides redundancy, a solid configutation guide##
 #First do this:
 #sudo chown -R _dnscrypt-proxy:_dnscrypt-proxy /var/cache/dnscrypt-proxy # or whatever your user/group is
 
