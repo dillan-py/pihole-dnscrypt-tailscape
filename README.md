@@ -7,11 +7,11 @@ Collection of working configurations and guides
 <img width="1401" height="150" alt="image" src="https://github.com/user-attachments/assets/cf076436-84f6-4866-a835-15c2f5f90065" />
 **Htop result:** 300-400 MB of RAM and low CPU usge makes this setup super lightweight and powerful.
 
-#  Pi‑hole + DNSSEC + Tailscale (VPN)  
+#  Pi‑hole + DNSCrypt + Tailscale (VPN)  
 ### A Secure, Private, Zero‑Trust DNS Infrastructure
 
 DNS traffic is often left out the conversation when it comes to securing your network, mostly resorting to using VPNs without actually knowing how traffic regarding DNS is resolved and handled once it leaves your network.
-This guide documents my personal DNS security stack built around **Pi‑hole**, **DNSSEC**, and **Tailscale**. The goal is simple:
+This guide documents my personal DNS security stack built around **Pi‑hole**, **DNSCrypt**, and **Tailscale**. The goal is simple:
 Create a fast, trustworthy, privacy‑focused DNS resolver that works both on a home local network and remotely through a zero‑trust VPN mesh.
 I have spent countless hours testing this concept through trial and error and what I have to show you worked best for me in the mind of keepnng it long term.
 
