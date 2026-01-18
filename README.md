@@ -35,6 +35,8 @@ When a DNS record is signed, your resolver can verify its cryptographic signatur
 - Therefore preventing forged responses commonly used in spoofing, phishing, and MITM attacks.
 DNSSEC doesn’t encrypt DNS traffic — it **authenticates** it. That authentication is what stops attackers from silently rewriting your internet.
 
+<img width="624" height="283" alt="image" src="https://github.com/user-attachments/assets/9c3c3a42-6bda-4d3d-b21c-bec449af485d" />
+
 
 
 ## How It Works – Simple Step-by-Step
