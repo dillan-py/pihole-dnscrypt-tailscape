@@ -1,6 +1,10 @@
 # Pi-hole + DNSCrypt + Tailscale  
 ### Secure, Private, DNS Infrastructure — At Home and Everywhere
 
+This setup creates a **fast, trustworthy, privacy-first DNS resolver** that works seamlessly:
+- At home (local network)
+- Remotely (via zero-trust VPN)
+
 <img width="1553" height="893" alt="Architecture overview" src="https://github.com/user-attachments/assets/57493399-3db8-4fea-a6e0-ef071d2e6b92" />
 
 **Pi-hole dashboard** — Blocking ~1 million domains is usually plenty for ads + malicious content.  
