@@ -1,9 +1,33 @@
 # Pi-hole + DNSCrypt + Tailscale  
-### Secure, Private, DNS Infrastructure — At Home and Everywhere
+### Privacy and Security focused DNS Setup for any local network that can be utilized remotely
 
-This setup creates a **fast, trustworthy, privacy-first DNS resolver** that works seamlessly:
-- At home (local network)
-- Remotely (via zero-trust VPN)
+
+Most people focus on VPNs for traffic encryption but overlook DNS — the system that translates domain names (like github.com) to IP addresses so you can visit sites.
+
+Once your DNS queries escape your control, adversaries can carry out several attacks with minimal effort:
+
+- Your **ISP** logs every site you visit (even HTTPS can't hide the domain names)
+- **Public Wi-Fi such as hotels airports**  (or attackers on the same network) can snoop, inject ads, or redirect you to phishing sites
+- **Government-level adversaries** or **malware** can tamper with responses or force you to malicious IPs
+- Many “free” public DNS resolvers (8.8.8.8, 1.1.1.1, etc.) still see and can log your full browsing history
+
+### The modern, low-maintenance privacy stack (2026 edition)
+
+Run this combo on a Raspberry Pi, mini-PC, or even a lightweight VM/container:
+
+1. **Pi-hole** → network-wide ad/tracker/malware blocking + query dashboard  
+2. **dnscrypt-proxy** → encrypts DNS traffic between your Pi-hole and upstream resolvers (DoH / DoQ / DNSCrypt) so **nobody** (ISP, transit providers, upstream DNS operator) can see or tamper with your real queries  
+3. **Tailscale** → secure WireGuard-based mesh VPN that gives every device encrypted access to your Pi-hole from anywhere — **without port forwarding**, CGNAT headaches, dynamic DNS, or exposing anything to the public internet
+
+### Why this combination beats most alternatives
+
+- **Full DNS encryption end-to-end** (unlike plain Pi-hole + public DoH)
+- **No reliance on third-party hosted DoH** (Cloudflare, Quad9, NextDNS, etc.) if you don't want someone else seeing your unblocked queries
+- **Works behind carrier-grade NAT** (most mobile networks, many home ISPs)
+- **Zero-config remote access** — join the tailnet once, and your phone/laptop/tablet/smart TV uses your private Pi-hole forever
+- **Global override possible** → set your Pi-hole's Tailscale IP as the nameserver for the entire tailnet (magic!)
+
+  
 
 <img width="1553" height="893" alt="Architecture overview" src="https://github.com/user-attachments/assets/57493399-3db8-4fea-a6e0-ef071d2e6b92" />
 
@@ -15,9 +39,6 @@ This setup creates a **fast, trustworthy, privacy-first DNS resolver** that work
 
 Most people focus on VPNs for traffic encryption but overlook DNS — the system that translates domain names (like github.com) to IP addresses. Once DNS leaves your control, your ISP, public Wi-Fi, or attackers can spy on it, tamper with it, or redirect you.
 
-This setup creates a **fast, trustworthy, privacy-first DNS resolver** that works seamlessly:
-- At home (local network)
-- Remotely (via zero-trust VPN)
 
 ## Core Components
 
