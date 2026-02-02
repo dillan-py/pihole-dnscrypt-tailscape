@@ -2,22 +2,34 @@
 ### Privacy and Security focused DNS Setup for any local network that can be utilized remotely
 
 
-Most people focus on VPNs for traffic encryption but overlook DNS — the system that translates domain names (like github.com) to IP addresses so you can visit sites.
+Most focus on VPNs for traffic encryption but overlook DNS. The system that translates domain names (like github.com) to IP addresses so you can visit sites.
 
-Once your DNS queries escape your control, adversaries can carry out several attacks with minimal effort:
+Once your DNS queries escape your control, several threats become easily implementable:
 
 - Your **ISP** logs every site you visit (even HTTPS can't hide the domain names)
 - **Public Wi-Fi such as hotels airports**  (or attackers on the same network) can snoop, inject ads, or redirect you to phishing sites
 - **Government-level adversaries** or **malware** can tamper with responses or force you to malicious IPs
-- Many “free” public DNS resolvers (8.8.8.8, 1.1.1.1, etc.) still see and can log your full browsing history
+- Many “free” public DNS resolvers (8.8.8.8, 1.1.1.1, etc.) still see and can log your full browsing history.
 
-### The modern, low-maintenance privacy stack (2026 edition)
+Once your DNS traffic leaves your control, it becomes trivial for others to interfere with it. A few examples:
+- 	Your **ISP** can log every domain you look up. HTTPS hides page content, but it can’t hide the hostname you’re connecting to.
+- 	Public Wi‑Fi (hotels, airports, cafés) — or anyone else on the same network — can tamper with DNS replies, inject ads, or silently redirect you to look‑alike phishing sites.
+- 	DNS spoofing/jacking becomes possible when an attacker can intercept or manipulate your DNS traffic. They can forge responses, poison caches, or force you onto malicious IPs without you noticing.
+- 	“Free” public resolvers (8.8.8.8, 1.1.1.1, etc.) still see every domain you query. Even if they promise not to log, you’re ultimately trusting them with all the domains in your browsing history.
+
+### The modern, low-maintenance privacy stack
 
 Run this combo on a Raspberry Pi, mini-PC, or even a lightweight VM/container:
 
-1. **Pi-hole** → network-wide ad/tracker/malware blocking + query dashboard  
-2. **dnscrypt-proxy** → encrypts DNS traffic between your Pi-hole and upstream resolvers (DoH / DoQ / DNSCrypt) so **nobody** (ISP, transit providers, upstream DNS operator) can see or tamper with your real queries  
-3. **Tailscale** → secure WireGuard-based mesh VPN that gives every device encrypted access to your Pi-hole from anywhere — **without port forwarding**, CGNAT headaches, dynamic DNS, or exposing anything to the public internet
+1. **Pi-hole**
+    Network-wide ad/tracker/malware blocking + query dashboard
+   
+3. **dnscrypt-proxy**
+   Encrypts DNS traffic between your Pi-hole and upstream resolvers (DoH / DoQ / DNSCrypt) so **nobody** (ISP, transit providers, upstream DNS operator) can see or tamper with your real queries
+   
+5. **Tailscale**
+   Secure WireGuard-based mesh VPN that gives every device encrypted access to your Pi-hole from anywhere — **without port forwarding**, CGNAT headaches, dynamic DNS, or exposing anything to the public internet
+   
 
 ### Why this combination beats most alternatives
 
