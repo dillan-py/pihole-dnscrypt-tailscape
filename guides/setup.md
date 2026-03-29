@@ -319,6 +319,11 @@ For ipv6 filtering ensure:
 ```bash
 IPV6=yes
 ```
+For tailscale to be an exit node: Very Important to get your exit node where your Pi is:
+```bash
+tailscale up --advertise-exit-node --accept-routes --advertise-routes=192.168.0.0/24
+```
+Then approve on the tailscale admin console on the Pi
 
 
 
