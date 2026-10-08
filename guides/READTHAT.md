@@ -125,5 +125,3 @@ Security isn't absolute, but this dramatically reduces your DNS attack surface.
 - **Network-wide blocking** — Ads, trackers, telemetry (OISD + StevenBlack + custom)  
 - **Tailscale integration** → Global DNS via zero-trust mesh (MagicDNS optional)  
 - **Lightweight & stable** — Runs great on Raspberry Pi 5 (2 GB+), low resources  
-
-Ready to build it? → Jump to the [Installation / Setup Guide](#installation)
