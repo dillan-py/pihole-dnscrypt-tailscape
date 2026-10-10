@@ -241,6 +241,7 @@ sudo tailscale up
 On your phone/laptop:
 - 	Install Tailscale app
 - 	Sign in
+- 	On admin page, you can manage your devices
 - 	Done
 
 You now have a working VPN.
